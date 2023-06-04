@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model CookbookSection {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  recipes   Recipe[]
+}
+
+model Recipe {
+  id                String          @id @default(cuid())
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  title             String
+  author            String
+  serves            Int?
+  ingredients       Ingredient[]
+  instructions      String
+  CookbookSection   CookbookSection @relation(fields: [cookbookSectionId], references: [id])
+  cookbookSectionId String
+}
+
+model Ingredient {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  text      String
+  Recipe    Recipe   @relation(fields: [recipeId], references: [id])
+  recipeId  String
+}

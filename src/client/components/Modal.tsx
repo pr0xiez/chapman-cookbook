@@ -1,5 +1,3 @@
-import React, { useRef } from "react";
-
 type Props = {
   children: React.ReactNode;
   onClose: () => void;

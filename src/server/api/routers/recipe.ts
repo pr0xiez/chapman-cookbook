@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { Ingredient, Recipe } from "@prisma/client";
+import type { Ingredient, Recipe } from "@prisma/client";
 
 const addIngredientSchema = z.object({
   text: z.string(),

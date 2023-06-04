@@ -4,7 +4,7 @@ import Button from "@cmp/Button";
 import Modal from "@cmp/Modal";
 import Input from "@cmp/Input";
 import TextArea from "@cmp/TextArea";
-import { EditIngredient } from "@/server/api/routers/recipe";
+import type { EditIngredient } from "@/server/api/routers/recipe";
 
 type Props = {
   onClose: () => void;

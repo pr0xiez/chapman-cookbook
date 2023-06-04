@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes } from "react";
 
 type Props = {
   labelText: string;

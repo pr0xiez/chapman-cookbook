@@ -1,5 +1,5 @@
 import cx from "classnames";
-import React, { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes } from "react";
 
 type Props = {
   children: React.ReactNode;

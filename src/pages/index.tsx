@@ -99,26 +99,26 @@ const Home: NextPage = () => {
         </div>
         {isAddRecipeModalOpen && (
           <AddRecipeModal
-            onClose={() => {
+            onClose={async () => {
               setIsAddRecipeModalOpen(false);
-              sections.refetch();
+              await sections.refetch();
             }}
           />
         )}
         {isEditRecipeModalOpen ? (
           <EditRecipeModal
             recipeId={recipeIdForEdit as string}
-            onClose={() => {
+            onClose={async () => {
               setIsEditRecipeModalOpen(false);
-              sections.refetch();
+              await sections.refetch();
             }}
           />
         ) : null}
         {isAddCookbookSectionOpen && (
           <AddCookbookSectionModal
-            onClose={() => {
+            onClose={async () => {
               setIsAddCookbookSectionOpen(false);
-              sections.refetch();
+              await sections.refetch();
             }}
           />
         )}

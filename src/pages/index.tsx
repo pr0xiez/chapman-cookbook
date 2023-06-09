@@ -88,7 +88,7 @@ const Home: NextPage = () => {
                         }}
                       >
                         <span>{r.title}</span>
-                        {r.serves !== null && <span>Serves: {r.serves}</span>}
+                        <span className="text-xs">By: {r.author}</span>
                       </li>
                     ))}
                   </ul>

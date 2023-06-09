@@ -28,7 +28,7 @@ model Recipe {
   author            String
   serves            Int?
   ingredients       Ingredient[]
-  instructions      String
+  instructions      String          @db.MediumText
   CookbookSection   CookbookSection @relation(fields: [cookbookSectionId], references: [id])
   cookbookSectionId String
 }

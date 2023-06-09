@@ -3,7 +3,6 @@ import Head from "next/head";
 import { api } from "@/utils/api";
 import { useState } from "react";
 import AddRecipeModal from "@/client/components/AddRecipeModal";
-import AddCookbookSectionModal from "@cmp/AddCookbookSectionModal";
 import Button from "@cmp/Button";
 import Input from "@cmp/Input";
 import classNames from "classnames";
@@ -13,8 +12,6 @@ const Home: NextPage = () => {
   const [searchText, setSearchText] = useState("");
   const [isAddRecipeModalOpen, setIsAddRecipeModalOpen] = useState(false);
   const [isEditRecipeModalOpen, setIsEditRecipeModalOpen] = useState(false);
-  const [isAddCookbookSectionOpen, setIsAddCookbookSectionOpen] =
-    useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const sections = api.cookbook.getSections.useQuery({
     title: searchText.length > 0 ? searchText : undefined,
@@ -40,12 +37,12 @@ const Home: NextPage = () => {
             >
               Add Recipe
             </Button>
-            <Button
+            {/* <Button
               fullWidth
               onClick={() => setIsAddCookbookSectionOpen((x) => !x)}
             >
               Add Cookbook Section
-            </Button>
+            </Button> */}
           </div>
           <div className="mb-2">
             <Input
@@ -114,14 +111,14 @@ const Home: NextPage = () => {
             }}
           />
         ) : null}
-        {isAddCookbookSectionOpen && (
+        {/* {isAddCookbookSectionOpen && (
           <AddCookbookSectionModal
             onClose={async () => {
               setIsAddCookbookSectionOpen(false);
               await sections.refetch();
             }}
           />
-        )}
+        )} */}
       </main>
     </>
   );

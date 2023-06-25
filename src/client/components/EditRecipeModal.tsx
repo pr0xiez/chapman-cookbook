@@ -25,8 +25,8 @@ const EditRecipeModal: React.FC<Props> = ({ onClose, recipeId }) => {
   const recipeRoute = api.useContext().recipe;
   const editRecipeMutation = api.recipe.editRecipe.useMutation();
   const deleteIngredientMutation = api.recipe.deleteIngredient.useMutation({
-    onSuccess: () => {
-      recipeRoute.invalidate();
+    onSuccess: async () => {
+      await recipeRoute.invalidate();
     },
   });
   const sections = api.cookbook.getSections.useQuery({});

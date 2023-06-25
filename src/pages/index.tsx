@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "@/utils/api";
-import { ComponentType, FunctionComponent, useState } from "react";
+import { useState } from "react";
 import AddRecipeModal from "@/client/components/AddRecipeModal";
 import Button from "@cmp/Button";
 import Input from "@cmp/Input";

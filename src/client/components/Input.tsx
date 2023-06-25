@@ -13,7 +13,7 @@ const Input: React.FC<Props> = ({ labelText, minusIconCb, ...props }) => {
         {minusIconCb && (
           <div className="absolute -right-0.5 -top-0.5 z-10">
             <FaMinusCircle
-              className="h-4 w-4 text-red-500"
+              className="h-3 w-3 bg-slate-900 text-red-500"
               onClick={minusIconCb}
             />
           </div>

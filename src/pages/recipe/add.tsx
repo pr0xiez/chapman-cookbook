@@ -1,19 +1,18 @@
-import type { AddIngredient } from "@/server/api/routers/recipe";
+import { type NextPage } from "next";
+import PageLayout from "@/client/components/PageLayout";
 import { useState } from "react";
+import type { AddIngredient } from "@/server/api/routers/recipe";
 import { api } from "@/utils/api";
-import Button from "@cmp/Button";
-import Modal from "@cmp/Modal";
-import Input from "@cmp/Input";
-import TextArea from "@cmp/TextArea";
+import { useRouter } from "next/router";
+import Input from "@/client/components/Input";
 import { FaPlusCircle } from "react-icons/fa";
-
-type Props = {
-  onClose: () => void;
-};
+import TextArea from "@/client/components/TextArea";
+import Button from "@/client/components/Button";
 
 type AddIngredientForList = AddIngredient & { index: number };
 
-const AddRecipeModal: React.FC<Props> = ({ onClose }) => {
+const AddRecipe: NextPage = () => {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [serves, setServes] = useState("");
@@ -21,7 +20,14 @@ const AddRecipeModal: React.FC<Props> = ({ onClose }) => {
   const [instructions, setInstructions] = useState("");
   const [cookbookSectionId, setCookbookSectionId] = useState("");
 
-  const addRecipeMutation = api.recipe.addRecipe.useMutation();
+  const addRecipeMutation = api.recipe.addRecipe.useMutation({
+    onSuccess: () => {
+      router.push("/");
+    },
+    onError: (error) => {
+      console.error("Failed to create recipe: ", error);
+    },
+  });
   const sections = api.cookbook.getSections.useQuery({});
 
   const handleDeleteIngredient = (index: number) => {
@@ -29,7 +35,10 @@ const AddRecipeModal: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <Modal headerText="Add Recipe" onClose={onClose}>
+    <PageLayout
+      headTitle="Add Recipe"
+      headContent="Add Recipe page of the Chapman cookboox"
+    >
       <form
         className="flex flex-col gap-2"
         onSubmit={async (e) => {
@@ -46,12 +55,7 @@ const AddRecipeModal: React.FC<Props> = ({ onClose }) => {
             cookbookSectionId,
           };
 
-          try {
-            await addRecipeMutation.mutateAsync(recipe);
-            onClose();
-          } catch (e) {
-            console.error("Failed to create recipe: ", e);
-          }
+          addRecipeMutation.mutate(recipe);
         }}
       >
         <Input
@@ -139,8 +143,8 @@ const AddRecipeModal: React.FC<Props> = ({ onClose }) => {
           </Button>
         </div>
       </form>
-    </Modal>
+    </PageLayout>
   );
 };
 
-export default AddRecipeModal;
+export default AddRecipe;

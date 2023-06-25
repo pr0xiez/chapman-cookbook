@@ -5,6 +5,7 @@ import Modal from "@cmp/Modal";
 import Input from "@cmp/Input";
 import TextArea from "@cmp/TextArea";
 import type { EditIngredient } from "@/server/api/routers/recipe";
+import { FaPlusCircle } from "react-icons/fa";
 
 type Props = {
   onClose: () => void;
@@ -21,7 +22,13 @@ const EditRecipeModal: React.FC<Props> = ({ onClose, recipeId }) => {
   const [instructions, setInstructions] = useState("");
   const [cookbookSectionId, setCookbookSectionId] = useState("");
 
+  const recipeRoute = api.useContext().recipe;
   const editRecipeMutation = api.recipe.editRecipe.useMutation();
+  const deleteIngredientMutation = api.recipe.deleteIngredient.useMutation({
+    onSuccess: () => {
+      recipeRoute.invalidate();
+    },
+  });
   const sections = api.cookbook.getSections.useQuery({});
   const { data: recipe, isSuccess } = api.recipe.getById.useQuery(
     { id: recipeId },
@@ -46,6 +53,14 @@ const EditRecipeModal: React.FC<Props> = ({ onClose, recipeId }) => {
       setCookbookSectionId(recipe.cookbookSectionId);
     }
   }, [isSuccess, recipe]);
+
+  const handleDeleteIngredient = (ingredient: EditIngredientForList) => {
+    if (ingredient.id === undefined) {
+      setIngredients((list) =>
+        list.filter((i) => i.index !== ingredient.index)
+      );
+    } else deleteIngredientMutation.mutate({ id: ingredient.id });
+  };
 
   return (
     <Modal headerText="Edit Recipe" onClose={onClose}>
@@ -95,10 +110,10 @@ const EditRecipeModal: React.FC<Props> = ({ onClose, recipeId }) => {
           onChange={(e) => setServes(e.target.value)}
         />
 
-        <div className="flex items-center justify-between font-medium">
+        <div className="mb-1 flex items-center justify-between font-medium">
           <p>Ingredients:</p>
-          <p
-            className="rounded border border-slate-600 p-1 hover:cursor-pointer hover:border-slate-500 hover:bg-slate-700"
+          <div
+            className="py-1 pl-1 text-lg text-green-500"
             onClick={() => {
               setIngredients((x) => {
                 const lastIndex = x[x.length - 1]?.index ?? 0;
@@ -106,8 +121,8 @@ const EditRecipeModal: React.FC<Props> = ({ onClose, recipeId }) => {
               });
             }}
           >
-            Add +
-          </p>
+            <FaPlusCircle />
+          </div>
         </div>
 
         {ingredients.map((i) => (
@@ -115,10 +130,11 @@ const EditRecipeModal: React.FC<Props> = ({ onClose, recipeId }) => {
             value={i.text}
             key={i.index}
             type="text"
-            labelText={`Ingredient ${i.index + 1}`}
+            labelText={`Ingredient`}
             name={`ingredient-${i.index + 1}`}
             id={`ingredient-${i.index + 1}`}
-            placeholder={`ingredient-${i.index + 1}`}
+            minusIconCb={() => handleDeleteIngredient(i)}
+            disabled={deleteIngredientMutation.isLoading}
             onChange={(e) =>
               setIngredients((ingredients) =>
                 ingredients.map((x) =>

@@ -30,6 +30,10 @@ const editRecipeSchema = z.object({
   ingredients: z.array(editIngredientSchema),
 });
 
+const deleteIngredientSchema = z.object({
+  id: z.string(),
+});
+
 export type AddIngredient = z.infer<typeof addIngredientSchema>;
 export type AddRecipe = z.infer<typeof addRecipeSchema>;
 export type EditIngredient = z.infer<typeof editIngredientSchema>;
@@ -101,6 +105,15 @@ export const recipeRouter = createTRPCRouter({
       });
 
       return { recipe: updatedRecipe };
+    }),
+  deleteIngredient: publicProcedure
+    .input(deleteIngredientSchema)
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.ingredient.delete({
+        where: {
+          id: input.id,
+        },
+      });
     }),
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.recipe.findMany();

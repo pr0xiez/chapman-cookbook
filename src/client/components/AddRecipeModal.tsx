@@ -5,6 +5,7 @@ import Button from "@cmp/Button";
 import Modal from "@cmp/Modal";
 import Input from "@cmp/Input";
 import TextArea from "@cmp/TextArea";
+import { FaPlusCircle } from "react-icons/fa";
 
 type Props = {
   onClose: () => void;
@@ -22,6 +23,10 @@ const AddRecipeModal: React.FC<Props> = ({ onClose }) => {
 
   const addRecipeMutation = api.recipe.addRecipe.useMutation();
   const sections = api.cookbook.getSections.useQuery({});
+
+  const handleDeleteIngredient = (index: number) => {
+    setIngredients((list) => list.filter((i) => i.index !== index));
+  };
 
   return (
     <Modal headerText="Add Recipe" onClose={onClose}>
@@ -70,10 +75,10 @@ const AddRecipeModal: React.FC<Props> = ({ onClose }) => {
           onChange={(e) => setServes(e.target.value)}
         />
 
-        <div className="flex items-center justify-between font-medium">
+        <div className="mb-1 flex items-center justify-between font-medium">
           <p>Ingredients:</p>
-          <p
-            className="rounded border border-slate-600 p-1 hover:cursor-pointer hover:border-slate-500 hover:bg-slate-700"
+          <div
+            className="py-1 pl-1 text-lg text-green-500"
             onClick={() => {
               setIngredients((x) => {
                 const lastIndex = x[x.length - 1]?.index ?? 0;
@@ -81,8 +86,8 @@ const AddRecipeModal: React.FC<Props> = ({ onClose }) => {
               });
             }}
           >
-            Add +
-          </p>
+            <FaPlusCircle />
+          </div>
         </div>
 
         {ingredients.map((i) => (
@@ -90,10 +95,10 @@ const AddRecipeModal: React.FC<Props> = ({ onClose }) => {
             value={i.text}
             key={i.index}
             type="text"
-            labelText={`Ingredient ${i.index + 1}`}
+            labelText={`Ingredient`}
             name={`ingredient-${i.index + 1}`}
             id={`ingredient-${i.index + 1}`}
-            placeholder={`ingredient-${i.index + 1}`}
+            minusIconCb={() => handleDeleteIngredient(i.index)}
             onChange={(e) =>
               setIngredients((ingredients) =>
                 ingredients.map((x) =>

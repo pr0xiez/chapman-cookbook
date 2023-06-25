@@ -3,7 +3,7 @@ import cx from "classnames";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { HTMLProps } from "react";
+import type { HTMLProps } from "react";
 import { FaArrowLeft, FaHome, FaPlus } from "react-icons/fa";
 
 type Props = {

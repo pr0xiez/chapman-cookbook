@@ -52,8 +52,8 @@ const Home: NextPage = () => {
                     <li
                       key={r.id}
                       className="mb-1 flex items-center justify-between rounded-lg border border-slate-700 px-2 py-1.5"
-                      onClick={() => {
-                        router.push(`/recipe/edit/${r.id}`);
+                      onClick={async () => {
+                        await router.push(`/recipe/edit/${r.id}`);
                       }}
                     >
                       <span>{r.title}</span>

@@ -23,8 +23,8 @@ const EditRecipe: NextPage = () => {
 
   const recipeRoute = api.useContext().recipe;
   const editRecipeMutation = api.recipe.editRecipe.useMutation({
-    onSuccess: () => {
-      router.push("/");
+    onSuccess: async () => {
+      await router.push("/");
     },
     onError: (error) => {
       console.error("Failed to edit recipe: ", error);
@@ -75,7 +75,7 @@ const EditRecipe: NextPage = () => {
     >
       <form
         className="flex flex-col gap-2"
-        onSubmit={async (e) => {
+        onSubmit={(e) => {
           e.preventDefault();
           const recipeForUpdate = {
             id: recipeId,

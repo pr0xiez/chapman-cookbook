@@ -40,7 +40,7 @@ const PageLayout: React.FC<Props> = ({ children, headTitle, headContent }) => {
       </header>
       <main
         className={cx(
-          "flex min-h-screen flex-col items-center bg-slate-900 pb-[54px] pt-[38px] text-slate-400"
+          "flex min-h-screen flex-col items-center bg-slate-900 pb-[54px] pt-[41px] text-slate-400"
         )}
       >
         <div className="container px-2 pt-1">{children}</div>
